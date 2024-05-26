@@ -6,8 +6,8 @@ public class Main {
         Cart cart1 = new Cart(Cart.TypeCart.VIRTUAL);
         store.carts.put(cart1.getId(), cart1);
 
-        cart1.addItem(store.inventory.get(0), 2);
-        cart1.addItem(store.inventory.get(4), 1);
+        cart1.addItem(store.inventory.get("A103"), 2);
+        cart1.addItem(store.inventory.get("A103"), 1);
 
 
         System.out.println(store.inventory);

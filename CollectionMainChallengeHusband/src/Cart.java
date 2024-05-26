@@ -1,20 +1,19 @@
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Cart {
-    public static enum TypeCart {
+    public enum TypeCart {
         PHYSICAL, VIRTUAL
     }
     public static int idInc = 1;
-    private int id;
-    private LocalDate date;
-    private TypeCart type;
+    private final int id;
+    private final LocalDate date;
+    private final TypeCart type;
 
     private Double totalPrice;
 
-    private Map<String, Integer> products;
+    private final Map<String, Integer> products;
 
     public Cart(TypeCart type) {
         this.date = LocalDate.now();
@@ -25,6 +24,7 @@ public class Cart {
     }
 
     public void addItem(InventoryItem inventoryItem, Integer qty) {
+        inventoryItem.reserveItem(inventoryItem.getQtyReserved() + qty);
         products.put(inventoryItem.getProduct().sku(), qty);
     }
 
@@ -40,25 +40,22 @@ public class Cart {
         return id;
     }
 
-    public void printSalesReceipt(List<InventoryItem> inventoryItems) {
-        System.out.println("Products:");
+    public void printSalesReceipt(Map<String, InventoryItem> inventoryItems) {
+        System.out.println("\nProducts:");
 
         products.forEach((String sku, Integer qty) -> {
-            final InventoryItem[] inventoryItem = {null};
-
-            inventoryItems.forEach((val) -> {
-                boolean isFound = val.getProduct().sku().equals(sku);
+            final InventoryItem inventoryItem = inventoryItems.get(sku);
+            boolean isFound = inventoryItem.getProduct().sku().equals(sku);
 
                 if(isFound) {
-                    inventoryItem[0] = val;
-                    totalPrice += val.getSalesPrice();
+                    totalPrice += inventoryItem.getSalesPrice();
                 }
-            });
 
-            System.out.printf("%s: %d%n", sku, qty);
+
+            System.out.printf("%s: %d = %.2f$ \n", inventoryItem.getProduct().name(), qty, (inventoryItem.getSalesPrice() * qty));
         });
 
-        System.out.printf("Total Price: %s", totalPrice);
+        System.out.printf("Total Price: %s$", totalPrice);
 
     }
 }

@@ -1,10 +1,9 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Store {
-    public List<InventoryItem> inventory;
+    public Map<String, InventoryItem> inventory = new HashMap<>();
     public Map<Integer, Cart> carts;
     public List<InventoryItem> aisleInventory;
 
@@ -18,10 +17,15 @@ public class Store {
                 new InventoryItem(new Product("S897", "Cola", "GE", Product.categories.PRODUCE), 200, 2.5)
         );
 
-        this.inventory = products;
+        //this.inventory = products;
+
 
 
         this.carts = new HashMap<>();
+
+        products.forEach((InventoryItem product) -> {
+            this.inventory.put(product.getProduct().sku(), product);
+        });
     }
 
     public void abandonCarts() {
@@ -34,14 +38,7 @@ public class Store {
         cart.printSalesReceipt(inventory);
 
         cart.getProducts().forEach((sku, qty) -> {
-            inventory.forEach((valInventory) -> {
-                var found =  valInventory.getProduct().sku().equals(sku);
-
-                if(found) {
-
-                    valInventory.sellItem();
-                }
-            });
+            inventory.get(sku).sellItem();
         });
 
     }
