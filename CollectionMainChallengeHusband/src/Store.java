@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Store {
-    public Map<String, InventoryItem> inventory;
+    public List<InventoryItem> inventory;
     public Map<Integer, Cart> carts;
     public List<InventoryItem> aisleInventory;
 
@@ -18,11 +18,8 @@ public class Store {
                 new InventoryItem(new Product("S897", "Cola", "GE", Product.categories.PRODUCE), 200, 2.5)
         );
 
-        //this.inventory = products;
+        this.inventory = products;
 
-        products.forEach((InventoryItem product) -> {
-            this.inventory.put(product.getProduct().sku(), product);
-        });
 
         this.carts = new HashMap<>();
     }
@@ -37,7 +34,14 @@ public class Store {
         cart.printSalesReceipt(inventory);
 
         cart.getProducts().forEach((sku, qty) -> {
-            inventory.get(sku).sellItem();
+            inventory.forEach((valInventory) -> {
+                var found =  valInventory.getProduct().sku().equals(sku);
+
+                if(found) {
+
+                    valInventory.sellItem();
+                }
+            });
         });
 
     }

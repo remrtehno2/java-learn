@@ -25,7 +25,6 @@ public class Cart {
     }
 
     public void addItem(InventoryItem inventoryItem, Integer qty) {
-        inventoryItem.reserveItem(inventoryItem.getQtyReserved() + qty);
         products.put(inventoryItem.getProduct().sku(), qty);
     }
 
@@ -41,22 +40,25 @@ public class Cart {
         return id;
     }
 
-    public void printSalesReceipt(Map<String, InventoryItem> inventoryItems) {
-        System.out.println("\nProducts:");
+    public void printSalesReceipt(List<InventoryItem> inventoryItems) {
+        System.out.println("Products:");
 
         products.forEach((String sku, Integer qty) -> {
-                final InventoryItem inventoryItem = inventoryItems.get(sku);
-                boolean isFound = inventoryItem.getProduct().sku().equals(sku);
+            final InventoryItem[] inventoryItem = {null};
+
+            inventoryItems.forEach((val) -> {
+                boolean isFound = val.getProduct().sku().equals(sku);
 
                 if(isFound) {
-                    totalPrice += inventoryItem.getSalesPrice();
+                    inventoryItem[0] = val;
+                    totalPrice += val.getSalesPrice();
                 }
+            });
 
-
-            System.out.printf("%s: %d = %.2f$ \n", inventoryItem.getProduct().name(), qty, (inventoryItem.getSalesPrice() * qty));
+            System.out.printf("%s: %d%n", sku, qty);
         });
 
-        System.out.printf("Total Price: %s$", totalPrice);
+        System.out.printf("Total Price: %s", totalPrice);
 
     }
 }
