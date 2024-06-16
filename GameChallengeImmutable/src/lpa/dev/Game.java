@@ -9,7 +9,7 @@ import java.util.Map;
 
 public abstract class Game<T extends Player> {
     private String gameName;
-    private final List<Player> players = new ArrayList<>();
+    protected final List<T> players = new ArrayList<>();
     protected Map<Character, GameAction> gameActions = new HashMap<>();
 
     public abstract T createNewPlayer(String name);
