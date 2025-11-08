@@ -2,9 +2,12 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        "s".replaceAll("a", "-");
+
+        new StringBuilder("ABA").reverse()
+
         var t = new LinkedList<>();
         t.add(1);
-
 
         List<Integer> arr = new ArrayList<>(List.of(1, 3, 6));
         System.out.println(countElemInList(arr));
@@ -124,7 +127,7 @@ public class Main {
     }
 
     public static boolean bsf(Map<String, List<String>> graph, String name) {
-        Queue<String> searchQueue = new LinkedList<>();
+        LinkedList<String> searchQueue = new LinkedList<>();
 
         // Queue<String> searchQueue = new LinkedList<>(graph.get(name));
         // searchQueue.addAll(graph.get(name));
@@ -195,7 +198,7 @@ public class Main {
         return 1;
     }
 
-    public static String findLowestCostNode(Map<String, Integer> costs, Set<String> processed) {
+    public static String findLowestCostNode2(Map<String, Integer> costs, Set<String> processed) {
         final int[] lowestCost = {(int) Math.abs(Double.POSITIVE_INFINITY)};
         final String[] lowestCostNode = {null};
 
@@ -209,6 +212,22 @@ public class Main {
         });
 
         return lowestCostNode[0];
+    }
+
+    public static String findLowestCostNode(Map<String, Integer> costs, Set<String> processed) {
+        int lowestCost = Integer.MAX_VALUE;
+        String lowestCostNode = null;
+
+        for (String node : costs.keySet()) {
+            int cost = costs.get(node);
+
+            if (cost < lowestCost && !processed.contains(node)) {
+                lowestCost = cost;
+                lowestCostNode = node;
+            }
+        }
+
+        return lowestCostNode;
     }
 
 

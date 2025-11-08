@@ -1,5 +1,6 @@
 import lpa.dev.GameConsole;
 import lpa.pirate.PirateGame;
+import lpa.pirate.Town;
 import lpa.prod.MyOwnGame;
 
 public class Main {

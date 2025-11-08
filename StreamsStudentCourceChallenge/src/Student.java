@@ -1,8 +1,6 @@
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Student {
     private static final Random random = new Random();
@@ -27,7 +25,7 @@ public class Student {
     }
 
     public static Student getRandomStudent(Course... courses) {
-        Map<String, CourseEngagement> engagementMapArgument = new HashMap<>();
+        Map<String, CourseEngagement> engagementMapArgument = new LinkedHashMap<>();
 
         var enrollmentDate = LocalDate.now();
 
@@ -83,10 +81,14 @@ public class Student {
     }
 
     public void addCourse(Course course) {
-
+        addCourse(course, LocalDate.now());
     }
 
     public void addCourse(Course course, LocalDate enrollDate) {
+        this.engagementMap.put(
+                course.courseCode(),
+                new CourseEngagement(course, enrollDate, null, 0, null)
+        );
     }
 
     public int getAge() {
@@ -98,11 +100,11 @@ public class Student {
     }
 
     public int getMonthsSinceActive(String courseCode) {
-        return 0;
+        return this.engagementMap.get(courseCode).getMonthsSinceActive();
     }
 
-    public int getPercentComplete(String courseCode) {
-        return 0;
+    public double getPercentComplete(String courseCode) {
+        return this.engagementMap.get(courseCode).getPercentComplete();
     }
 
     public int getYearSinceEnrolled(String courseCode) {

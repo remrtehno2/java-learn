@@ -70,5 +70,18 @@ public class MainWife {
         }
     }
 
+    public String longestCommonPrefix(String[] strs) {
+        StringBuilder out = new StringBuilder("");
+        int currentChar = 0;
 
+        while(true) {
+            for(String s : strs) {
+                for(int i = 0; i < s.toCharArray().length && i <= currentChar; i++) {
+//                    out.toString().toCharArray()[currentChar]
+                }
+            }
+
+        }
+
+    }
 }

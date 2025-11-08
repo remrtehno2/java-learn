@@ -2,26 +2,23 @@ package lpa.pirate;
 
 import lpa.dev.interfaces.Player;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class Pirate implements Player {
+public final class Pirate extends Combatant {
     protected Map<String, Integer> gameData;
     private String name;
     private Set<String> townsVisited;
     private Weapon currentWeapon;
 
     public Pirate(String name) {
+        super(name);
         this.name = name;
         this.townsVisited = new HashSet<>();
         this.gameData = new HashMap<>();
+
+        this.gameData.put("level", 0);
     }
 
-    public Map<String, Integer> getGameData() {
-        return gameData;
-    }
 
     public String getName() {
         return name;
@@ -43,4 +40,15 @@ public class Pirate implements Player {
     public String name() {
         return name;
     }
+
+    @Override
+    public String toString() {
+
+        var current = !townsVisited.isEmpty() ? new ArrayList<>(townsVisited).getLast() : null;
+
+        return "---> " + current +
+                "\nPirate "+ name + " " + gameData +
+                "\n\ttownsVisited=" + current;
+    }
+
 }

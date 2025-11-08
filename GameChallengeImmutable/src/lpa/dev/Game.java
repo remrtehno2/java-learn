@@ -2,15 +2,12 @@ package lpa.dev;
 
 import lpa.dev.interfaces.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Game<T extends Player> {
     private String gameName;
     protected final List<T> players = new ArrayList<>();
-    protected Map<Character, GameAction> gameActions = new HashMap<>();
+    protected Map<Character, GameAction> gameActions = new LinkedHashMap<>();
 
     public abstract T createNewPlayer(String name);
 
